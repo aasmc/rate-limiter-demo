@@ -77,7 +77,7 @@ public interface UserRateLimiterRepository extends CrudRepository<UserRateLimite
             // thrown when select for update no wait doesn't allow to proceed
             log.error(ex.getMessage());
             registerMetric(userName, STATUS_ERROR);
-            throw new ServiceException(HttpStatus.BAD_REQUEST,  "Cannot allow request. Error " + ex.getMessage());
+            throw new ServiceException(HttpStatus.TOO_MANY_REQUESTS,  "Cannot allow request. Error " + ex.getMessage());
         }
     }
 
@@ -94,7 +94,7 @@ public interface UserRateLimiterRepository extends CrudRepository<UserRateLimite
                             } else {
                                 log.error("Request not permitted");
                                 registerMetric(userName, STATUS_ERROR);
-                                throw new ServiceException(HttpStatus.BAD_REQUEST, "Cannot allow request.");
+                                throw new ServiceException(HttpStatus.TOO_MANY_REQUESTS, "Cannot allow request.");
                             }
                         },
                         () -> {
@@ -106,7 +106,7 @@ public interface UserRateLimiterRepository extends CrudRepository<UserRateLimite
                             } catch (DbActionExecutionException ex) {
                                 log.error("Failed to permit request. Exception = {}", ex.getMessage());
                                 registerMetric(userName, STATUS_ERROR);
-                                throw new ServiceException(HttpStatus.BAD_REQUEST, "Cannot allow request. Error " + ex.getMessage());
+                                throw new ServiceException(HttpStatus.TOO_MANY_REQUESTS, "Cannot allow request. Error " + ex.getMessage());
                             }
                         }
                 );
@@ -177,7 +177,7 @@ public interface UserRateLimiterRepository extends CrudRepository<UserRateLimite
         } catch (DataIntegrityViolationException ex) {
             log.error(ex.getMessage());
             registerMetric(userName, STATUS_ERROR);
-            throw new ServiceException(HttpStatus.BAD_REQUEST, "Cannot allow request. Error " + ex.getMessage());
+            throw new ServiceException(HttpStatus.TOO_MANY_REQUESTS, "Cannot allow request. Error " + ex.getMessage());
         }
     }
 ```

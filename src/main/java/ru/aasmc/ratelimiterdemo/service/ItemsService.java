@@ -32,7 +32,7 @@ public class ItemsService {
     }
 
     public UserItemsResponse getItemsOfUser(String userName) {
-        userRateLimiterService.permitRequestOrThrow(userName);
+        userRateLimiterService.acquire(userName);
         List<String> itemNames = itemsRepository.findAllByUser(userName)
                 .stream()
                 .map(Item::getName)
