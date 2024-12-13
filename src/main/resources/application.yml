@@ -28,6 +28,14 @@ external:
   loki-url: ${LOKI_URL:http://localhost:3100/loki/api/v1/push}
   zipkin-url: ${ZIPKIN_URL:http://localhost:9411/api/v2/spans}
 
+scheduling:
+  ratelimiter-cleaner:
+    enabled: true
+    job-name: "RateLimiterCleanerJob"
+    cron: "0 0/5 * * * *" # Каждые 5 минут
+    lock-at-least-for: "PT1M"
+    lock-at-most-for: "PT2M"
+    clean-before-period: "PT5M"
 
 management:
   endpoints:

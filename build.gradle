@@ -27,6 +27,7 @@ repositories {
 ext {
     lokiAppenderVersion = '1.5.1'
     gatlingVersion = '3.13.1'
+    shedlockVersion = '6.0.2'
 }
 
 dependencies {
@@ -39,6 +40,8 @@ dependencies {
     implementation 'io.micrometer:micrometer-tracing-bridge-brave'
     implementation 'io.micrometer:micrometer-core'
     implementation 'io.zipkin.reporter2:zipkin-reporter-brave'
+    implementation "net.javacrumbs.shedlock:shedlock-spring:${shedlockVersion}"
+    implementation "net.javacrumbs.shedlock:shedlock-provider-jdbc-template:${shedlockVersion}"
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.postgresql:postgresql'
     runtimeOnly 'io.micrometer:micrometer-registry-prometheus'

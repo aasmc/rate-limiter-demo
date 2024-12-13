@@ -18,7 +18,9 @@ public class UserRateLimiter {
     private Long id;
     @Column("user_name")
     private String userName;
-    @Column("request_dt")
-    private Instant requestTime;
+    @Column("create_dt")
+    private Instant created;
+    @Column("limiter_range")
+    private String range;
 
 }
