@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.4.0'
     id 'io.spring.dependency-management' version '1.1.6'
+    id 'io.gatling.gradle' version '3.13.1'
 }
 
 group = 'ru.aasmc'
@@ -23,12 +24,33 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    lokiAppenderVersion = '1.5.1'
+    gatlingVersion = '3.13.1'
+}
+
 dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+    implementation 'org.springframework.data:spring-data-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.flywaydb:flyway-database-postgresql'
+    implementation 'io.micrometer:micrometer-tracing-bridge-brave'
+    implementation 'io.micrometer:micrometer-core'
+    implementation 'io.zipkin.reporter2:zipkin-reporter-brave'
     compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'org.postgresql:postgresql'
+    runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+    runtimeOnly "com.github.loki4j:loki-logback-appender:${lokiAppenderVersion}"
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.boot:spring-boot-testcontainers'
+    testImplementation 'org.testcontainers:junit-jupiter'
+    testImplementation 'org.testcontainers:postgresql'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    implementation "io.gatling:gatling-app:${gatlingVersion}"
+    implementation "io.gatling.highcharts:gatling-charts-highcharts:${gatlingVersion}"
 }
 
 tasks.named('test') {

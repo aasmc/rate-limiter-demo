@@ -1,0 +1,19 @@
+global:
+  scrape_interval: 2s
+  scrape_timeout: 2s
+
+
+scrape_configs:
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:9090"]
+
+  - job_name: 'ratelimiter-service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['ratelimiter-service:9091']
+
+  - job_name: 'ratelimiter-service-2'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: [ 'ratelimiter-service-2:9091' ]
