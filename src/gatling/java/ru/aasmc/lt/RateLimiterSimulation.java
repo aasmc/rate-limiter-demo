@@ -42,7 +42,7 @@ public class RateLimiterSimulation extends Simulation {
     private static ScenarioBuilder createScenarioBuilder(String name) {
         return CoreDsl.scenario(name)
                 .exec(http("get-item-response").get("/items/Alex")
-                        .check(status().in(200, 400)));
+                        .check(status().in(200, 429)));
     }
 
     public RateLimiterSimulation() {

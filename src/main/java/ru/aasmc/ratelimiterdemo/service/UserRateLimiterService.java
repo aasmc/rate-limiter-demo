@@ -45,7 +45,7 @@ public class UserRateLimiterService {
             // thrown when select for update no wait doesn't allow to proceed
             log.error(ex.getMessage());
             registerMetric(userName, STATUS_ERROR);
-            throw new ServiceException(HttpStatus.BAD_REQUEST,  "Cannot allow request. Error " + ex.getMessage());
+            throw new ServiceException(HttpStatus.TOO_MANY_REQUESTS,  "Cannot allow request. Error " + ex.getMessage());
         }
     }
 
@@ -62,7 +62,7 @@ public class UserRateLimiterService {
                             } else {
                                 log.error("Request not permitted");
                                 registerMetric(userName, STATUS_ERROR);
-                                throw new ServiceException(HttpStatus.BAD_REQUEST, "Cannot allow request.");
+                                throw new ServiceException(HttpStatus.TOO_MANY_REQUESTS, "Cannot allow request.");
                             }
                         },
                         () -> {
@@ -74,7 +74,7 @@ public class UserRateLimiterService {
                             } catch (DbActionExecutionException ex) {
                                 log.error("Failed to permit request. Exception = {}", ex.getMessage());
                                 registerMetric(userName, STATUS_ERROR);
-                                throw new ServiceException(HttpStatus.BAD_REQUEST, "Cannot allow request. Error " + ex.getMessage());
+                                throw new ServiceException(HttpStatus.TOO_MANY_REQUESTS, "Cannot allow request. Error " + ex.getMessage());
                             }
                         }
                 );
